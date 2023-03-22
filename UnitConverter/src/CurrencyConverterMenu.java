@@ -14,23 +14,30 @@ public class CurrencyConverterMenu implements ConverterMenu {
 
 	@Override
 	public String requestValueToConvert() {
-		String valueToConvert = null;
-		boolean invalidValue = true;
-		while (invalidValue) {
-			valueToConvert = (JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero que desea convertir: ","Input",JOptionPane.PLAIN_MESSAGE,null,null,"Selecciona")).toString();
-			if (valueToConvert.matches("^-?\\d+(?:\\.\\d+)?$")) {
-				invalidValue=false;
-				return valueToConvert;
-			} else {
+		boolean validation=true;
+		String valueToConvert=null;
+		double valueToConvertValidated;
+		
+		while(validation=true) {
+			try {
+
+				valueToConvert =(JOptionPane.showInputDialog(null,"Ingrese la cantidad de dinero que desea convertir: ","Input",JOptionPane.PLAIN_MESSAGE,null,null,"Selecciona")).toString();
+				valueToConvertValidated=Double.parseDouble(valueToConvert);
+				validation=false;
+				break;
+						
+			}catch(NumberFormatException e){
 				JOptionPane.showMessageDialog(null, "Valor no válido");
-				invalidValue=true;
+				validation=true;
 			}
 		}
-		return null;	
+		return valueToConvert;
 	}
+		
+
 	@Override
 	public String selectConvertionType() {
-		CurrencyToLabel currencySelected=(CurrencyToLabel) (JOptionPane.showInputDialog(null,"ELige la moneda a la que deseas convertir tu dinero: ","Monedas",
+		CurrencyToLabel currencySelected=(CurrencyToLabel) (JOptionPane.showInputDialog(null,"Elige la moneda a la que deseas convertir tu dinero: ","Monedas",
 				JOptionPane.PLAIN_MESSAGE,null,currencyToLabel,"Selecciona"));
 		return currencySelected.name;
 	}
